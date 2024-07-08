@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.mygdx.game.components.Potentiometer;
+import com.mygdx.game.components.TripleSwitch;
 import com.sun.org.apache.xpath.internal.operations.Or;
 
 public class MyGdxGame extends Game {
@@ -37,6 +38,13 @@ public class MyGdxGame extends Game {
 		potentiometer.setPosition(100, 100);
 		potentiometer.setSize(300, 120);
 		stage.addActor(potentiometer);
+
+		TripleSwitch tripleSwitch = new TripleSwitch(skin);
+		tripleSwitch.setSize(200, 200);
+		tripleSwitch.setPosition(500, 100);
+		tripleSwitch.setState((byte) 1);
+		stage.addActor(tripleSwitch);
+
 
 	}
 
