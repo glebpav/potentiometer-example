@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.mygdx.game.components.Potentiometer;
+import com.mygdx.game.components.PowerDisplay;
 import com.mygdx.game.components.TripleSwitch;
 import com.sun.org.apache.xpath.internal.operations.Or;
 
@@ -24,6 +25,8 @@ public class MyGdxGame extends Game {
 	Skin skin;
 	OrthographicCamera camera;
 	FillViewport viewport;
+
+	PowerDisplay powerDisplay;
 
 	@Override
 	public void create () {
@@ -45,7 +48,9 @@ public class MyGdxGame extends Game {
 		tripleSwitch.setState((byte) 1);
 		stage.addActor(tripleSwitch);
 
-
+		powerDisplay = new PowerDisplay(0, 100, 50, 10);
+		powerDisplay.setPosition(200, 200);
+		stage.addActor(powerDisplay);
 	}
 
 	@Override
