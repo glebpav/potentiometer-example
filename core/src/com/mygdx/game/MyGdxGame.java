@@ -6,9 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,6 +16,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.mygdx.game.components.EnergyChart;
 import com.mygdx.game.components.Potentiometer;
+import com.mygdx.game.components.PowerDisplay;
 import com.mygdx.game.components.TripleSwitch;
 import com.mygdx.game.utils.ChartValues;
 import com.sun.org.apache.xpath.internal.operations.Or;
@@ -38,6 +37,7 @@ public class MyGdxGame extends Game {
     long initialTime;
 
     EnergyChart energyChart;
+    PowerDisplay powerDisplay;
 
     @Override
     public void create() {
@@ -61,6 +61,10 @@ public class MyGdxGame extends Game {
         tripleSwitch.setPosition(400, 100);
         tripleSwitch.setState((byte) 1);
         stage.addActor(tripleSwitch);
+
+        powerDisplay = new PowerDisplay(0, 100, 50, 10);
+        powerDisplay.setPosition(200, 200);
+        stage.addActor(powerDisplay);
 
         energyChart = new EnergyChart(skin);
         energyChart.setSize(200, 400);
