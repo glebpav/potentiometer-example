@@ -1,5 +1,6 @@
 package com.mygdx.game.components;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,9 +26,9 @@ public class TripleSwitch extends Actor {
         baseImage = new Image(skin, "triple-switch-base");
         buttonImage = new Image(skin, "triple-switch-button");
         labels = new Label[] {
-                new Label("1", skin),
-                new Label("2", skin),
-                new Label("3", skin)
+                new Label("1", skin, "molot-font", Color.BLACK),
+                new Label("2", skin, "molot-font", Color.BLACK),
+                new Label("3", skin, "molot-font", Color.BLACK)
         };
 
         setSize(100, 100);
