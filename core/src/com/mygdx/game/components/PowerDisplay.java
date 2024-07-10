@@ -52,9 +52,12 @@ public class PowerDisplay extends Actor {
         shapeRenderer.rect(LinedX, LinedY, progressWidth, LinedHeight);
 
         shapeRenderer.setColor(INACCURACY_BORDERS);
-        shapeRenderer.rect(LinedX + (idealValue - inaccuracy - minValue) / (maxValue - minValue) * LinedWidth, LinedY, lineSize, LinedHeight);
-        shapeRenderer.rect(LinedX + (idealValue + inaccuracy - minValue) / (maxValue - minValue) * LinedWidth, LinedY, lineSize, LinedHeight);
-
+        if(idealValue - inaccuracy > minValue) {
+            shapeRenderer.rect(LinedX + (idealValue - inaccuracy - minValue) / (maxValue - minValue) * LinedWidth, LinedY, lineSize, LinedHeight);
+        }
+        if (idealValue + inaccuracy < maxValue) {
+            shapeRenderer.rect(LinedX + (idealValue + inaccuracy - minValue) / (maxValue - minValue) * LinedWidth, LinedY, lineSize, LinedHeight);
+        }
         shapeRenderer.end();
 
         batch.begin();
