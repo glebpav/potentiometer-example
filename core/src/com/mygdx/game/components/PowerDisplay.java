@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class PowerDisplay extends Actor {
     private final float minValue;
     private final float maxValue;
-    private final float idealValue;
+    private float idealValue;
     private final float inaccuracy;
     private float currentValue;
     private final ShapeRenderer shapeRenderer;
@@ -62,5 +62,10 @@ public class PowerDisplay extends Actor {
 
     public void setCurrentValue(float currentValue) {
         this.currentValue = Math.max(minValue, Math.min(maxValue, currentValue));
+    }
+
+    public void setIdealValue(float idealValue) {
+        if (idealValue < minValue || idealValue > maxValue) throw new IllegalArgumentException();
+        this.idealValue = idealValue;
     }
 }

@@ -16,13 +16,14 @@ public class ChartValues implements Comparable<ChartValues> {
         return (int) ((this.value - o.value) * 1000);
     }
 
-    public static double getValue(ArrayList<ChartValues> valuesList, int time) {
+    public static float getValue(ArrayList<ChartValues> valuesList, int time) {
         int timeHolder = 0;
         for (ChartValues chartValues : valuesList) {
-            if (timeHolder >= time) return chartValues.value;
+            if (timeHolder >= time) return (float) chartValues.value;
             timeHolder += chartValues.duration;
         }
-        return 0;
+        if (timeHolder > time) return (float) valuesList.get(valuesList.size() - 1).value;
+        throw new IllegalArgumentException();
     }
 
     public static int getSumTime(ArrayList<ChartValues> valuesList) {

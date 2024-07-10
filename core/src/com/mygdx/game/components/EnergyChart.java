@@ -16,17 +16,17 @@ public class EnergyChart extends Actor {
     ArrayList<ChartValues> valuesList;
 
     private final int VISUALIZING_TIME_GAP = 20; // how many seconds fit in horizontal graph
-    private final double VERTICAL_PADDING = 5;
-    private final int CENTER_LINE_WIDTH = 7;
-    private final int CHART_LINE_WIDTH = 3;
+    private final double VERTICAL_PADDING = 50;
+    private final int CENTER_LINE_WIDTH = 8;
+    private final int CHART_LINE_WIDTH = 4;
     private final Color LINE_COLOR = Color.BLACK;
 
     Image greenTransparentRectagleImage;
     Image greenColoredRectangleImage;
     Image borderImage;
 
-    double minValue;
-    double maxValue;
+    private double minValue;
+    private double maxValue;
 
     public int currentPosition;
 
@@ -43,11 +43,21 @@ public class EnergyChart extends Actor {
         currentPosition = 0;
     }
 
+    public double getMaxValue() {
+        return maxValue;
+    }
+
+    public double getMinValue() {
+        return minValue;
+    }
+
     public void setValuesList(ArrayList<ChartValues> valuesList, boolean updateBoundaryValues) {
         this.valuesList = new ArrayList<>(valuesList);
         if (updateBoundaryValues) {
             maxValue = Collections.max(valuesList).value;
             minValue = Collections.min(valuesList).value;
+
+            System.out.println("maxValue: " + maxValue + " minValue: " + minValue);
         }
     }
 
@@ -82,11 +92,10 @@ public class EnergyChart extends Actor {
              i < ChartValues.getSumTime(valuesList) && i - currentPosition < VISUALIZING_TIME_GAP / 2;
              i++) {
 
-            System.out.println("i = " + i);
-
             if (i < 0) continue;
 
             float part = (float) getMaxPart(ChartValues.getValue(valuesList, i));
+
             float x1 = (float) (getX() + (i - (currentPosition - VISUALIZING_TIME_GAP / 2.)) * getWidth() / VISUALIZING_TIME_GAP);
             float x2 = x1 + getWidth() / VISUALIZING_TIME_GAP;
             float y = (float) (getY() + VERTICAL_PADDING + (getHeight() - 2 * VERTICAL_PADDING) * part);
@@ -96,8 +105,9 @@ public class EnergyChart extends Actor {
                     && i + 1 - currentPosition < VISUALIZING_TIME_GAP / 2) {
 
                 float part2 =  (float) getMaxPart(ChartValues.getValue(valuesList, i + 1));
-                float y2 = (float) (getY() + + VERTICAL_PADDING + (getHeight() - 2 * VERTICAL_PADDING) * part2);
-                shapeRenderer.rectLine(x2, y, x2, y2, CHART_LINE_WIDTH);
+                float y2 = (float) (getY() + VERTICAL_PADDING + (getHeight() - 2 * VERTICAL_PADDING) * part2);
+                if (y > y2) shapeRenderer.rectLine(x2, y + CHART_LINE_WIDTH / 2, x2, y2 - CHART_LINE_WIDTH / 2, CHART_LINE_WIDTH);
+                else shapeRenderer.rectLine(x2, y - CHART_LINE_WIDTH / 2, x2, y2 + CHART_LINE_WIDTH / 2, CHART_LINE_WIDTH);
             }
         }
 

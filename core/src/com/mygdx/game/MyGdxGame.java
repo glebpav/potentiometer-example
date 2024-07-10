@@ -38,6 +38,9 @@ public class MyGdxGame extends Game {
 
     EnergyChart energyChart;
     PowerDisplay powerDisplay;
+    Potentiometer potentiometer;
+
+    ArrayList<ChartValues> energyList;
 
     @Override
     public void create() {
@@ -51,7 +54,7 @@ public class MyGdxGame extends Game {
 
         skin.add("molot-font", FontBuilder.generate(20, Color.BLACK, "fonts/Molot.otf"));
 
-        Potentiometer potentiometer = new Potentiometer(skin);
+        potentiometer = new Potentiometer(skin);
         potentiometer.setPosition(50, 100);
         potentiometer.setSize(300, 120);
         stage.addActor(potentiometer);
@@ -62,8 +65,9 @@ public class MyGdxGame extends Game {
         tripleSwitch.setState((byte) 1);
         stage.addActor(tripleSwitch);
 
-        powerDisplay = new PowerDisplay(0, 100, 50, 10);
-        powerDisplay.setPosition(200, 200);
+        powerDisplay = new PowerDisplay(0, 1, 0.5f, 0.1f);
+        powerDisplay.setPosition(50, 300);
+        powerDisplay.setSize(300, 90);
         stage.addActor(powerDisplay);
 
         energyChart = new EnergyChart(skin);
@@ -71,7 +75,7 @@ public class MyGdxGame extends Game {
         energyChart.setPosition(500, 100);
         stage.addActor(energyChart);
 
-        energyChart.setValuesList(new ArrayList<>(Arrays.asList(
+        energyList = new ArrayList<>(Arrays.asList(
                 new ChartValues(3, 10),
                 new ChartValues(5, 12),
                 new ChartValues(2, 13),
@@ -80,8 +84,9 @@ public class MyGdxGame extends Game {
                 new ChartValues(10, 12),
                 new ChartValues(5, 12),
                 new ChartValues(5, 5))
-        ), true);
+        );
 
+        energyChart.setValuesList(energyList, true);
 
 		/*Label label = new Label("Potentiometer", skin, "molot-font", Color.BLACK);
 		label.setPosition(100, 100);
@@ -92,8 +97,15 @@ public class MyGdxGame extends Game {
     @Override
     public void render() {
 
-        if (TimeUtils.millis() - initialTime > 20_000) initialTime = TimeUtils.millis();
-        else energyChart.currentPosition = (int) ((TimeUtils.millis() - initialTime) / 1000);
+        long currentTime = TimeUtils.millis() - initialTime;
+
+        if (currentTime >= ChartValues.getSumTime(energyList) * 1_000L) initialTime = TimeUtils.millis();
+        else energyChart.currentPosition = (int) (currentTime / 1000);
+        powerDisplay.setCurrentValue((float) potentiometer.getValue());
+        powerDisplay.setIdealValue(
+                (float) ((ChartValues.getValue(energyList, energyChart.currentPosition) - energyChart.getMinValue())
+                                        / (energyChart.getMaxValue() - energyChart.getMinValue()))
+        );
 
         ScreenUtils.clear(Color.GRAY);
         stage.act();

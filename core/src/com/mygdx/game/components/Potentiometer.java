@@ -56,6 +56,10 @@ public class Potentiometer extends Actor {
         spinnerImage.draw(batch, parentAlpha);
     }
 
+    public double getValue() {
+        return (1 - (Math.toRadians(spinnerImage.getRotation()) - a) / (Math.PI * 2 - a * 2));
+    }
+
     private class PotentiometerInputLister extends InputListener {
 
         double touchInitialAngle;
@@ -75,7 +79,7 @@ public class Potentiometer extends Actor {
         @Override
         public void touchDragged(InputEvent event, float x, float y, int pointer) {
             touchCurrentAngle = getAngle(x, y);
-            double dAngle = - touchInitialAngle + touchCurrentAngle;
+            double dAngle = -touchInitialAngle + touchCurrentAngle;
 
             spinnerCurrentAngle = spinnerInitialAngle + dAngle;
 
@@ -92,7 +96,7 @@ public class Potentiometer extends Actor {
                 return;
             }
 
-            if ((spinnerCurrentAngle + dAngle >= Math.PI * 2 - a) ) {
+            if ((spinnerCurrentAngle + dAngle >= Math.PI * 2 - a)) {
                 touchInitialAngle = getAngle(x, y);
                 return;
             }
